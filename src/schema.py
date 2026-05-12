@@ -153,7 +153,7 @@ class LatentSpace(BaseModel) :
     introduction : IntroductionItem
 
     topNews : TopNewsItem
-    paper : PaperItem
+    #paper : PaperItem
     news_1 : NewsItem
     news_2 : NewsItem
     news_3 : NewsItem
