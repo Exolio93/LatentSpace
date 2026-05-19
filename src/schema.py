@@ -1,6 +1,11 @@
 from pydantic import BaseModel, Field, HttpUrl
 from typing import List
 
+flashnews_min = 5
+flashnews_max = 8
+news_min = 3
+news_max = 3
+
 class IntroductionItem(BaseModel):
     # 1. L'accueil
     mot_de_bienvenue: str = Field(
@@ -26,7 +31,6 @@ class IntroductionItem(BaseModel):
         min_length=150,
         max_length=450
     )
-
 
 class TopNewsItem(BaseModel):
 
@@ -68,9 +72,6 @@ class TopNewsItem(BaseModel):
         description="Une conclusion ultra-rapide en 1 ou 2 phrases qui résume la situation ou ouvre sur l'avenir, souvent avec une touche d'ironie ou de légèreté.",
         max_length=150)
 
-
-
-
 class PaperItem(BaseModel):
 
     # 1. Le vrai nom
@@ -104,7 +105,6 @@ class PaperItem(BaseModel):
         ...,
         description="Le lien direct vers l'étude (arXiv, Nature, etc.).")
 
-
 class NewsItem(BaseModel):
     # L'accroche visuelle (Emoji + Titre)
     catch_phrase: str = Field(
@@ -120,9 +120,16 @@ class NewsItem(BaseModel):
             "Il doit inclure le contexte, le fait marquant et la conséquence. "
             "IMPORTANT : Mets en gras (avec **) quelques mots clés pour faciliter la lecture."
         ),
-        min_length=400,  # Environ 60 mots minimum
+        min_length=400,
         max_length=900)
 
+class NewsList(BaseModel) : 
+    items: List[NewsItem] = Field(
+        ..., 
+        min_length=news_min, 
+        max_length=news_max,
+        description="Une liste de 3 actualités de taille moyenne pour couvrir les informations importantes."
+    )
 
 class FlashNewsItem(BaseModel):
     entity: str = Field(
@@ -133,14 +140,14 @@ class FlashNewsItem(BaseModel):
     content: str = Field(
         ..., 
         description="L'action, le chiffre ou le fait marquant, en une seule phrase très courte et sans fioritures.",
-        max_length=150 # On limite drastiquement pour forcer le côté "Flash"
+        max_length=150 
     )
 
 class FlashNewsList(BaseModel) :
-    breves: List[FlashNewsItem] = Field(
+    items: List[FlashNewsItem] = Field(
         ..., 
-        min_length=5, 
-        max_length=8,
+        min_length=flashnews_min, 
+        max_length=flashnews_max,
         description="Une liste de 5 à 8 actualités très courtes pour balayer le reste de l'information."
     )
 
@@ -152,11 +159,23 @@ class LatentSpace(BaseModel) :
 
     introduction : IntroductionItem
 
-    topNews : TopNewsItem
+    top_news : TopNewsItem
+    news : NewsList
+    flash_news : FlashNewsList
     #paper : PaperItem
-    news_1 : NewsItem
-    news_2 : NewsItem
-    news_3 : NewsItem
 
-    flashnews : FlashNewsList
+########################
+# Schema pour l'editeur
+########################
+
+class Subject(BaseModel):
+    title: str = Field(description="Titre temporaire pour comprendre le sujet.")
+    urls_sources: List[str] = Field(description="Les URLs exactes des articles scrappés à utiliser pour ce sujet.")
+    editorial_perspective: str = Field(description="Une phrase pour dire au rédacteur sous quel angle traiter l'info.")
+
+
+class EditionStructure(BaseModel) : 
+    top_news_subject : Subject = Field(description="L'actualité la plus importante et complexe de la semaine.")
+    news_subject : List[Subject] = Field(min_length=3, max_length=3,description="Exactement 3 sujets secondaires mais impactants.")
+    flash_news_subject : List[Subject] = Field(min_length=5, max_length=8,description="5 à 8 actualités très courtes pour le balayage final.")
 

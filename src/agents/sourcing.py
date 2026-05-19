@@ -2,9 +2,13 @@ import os
 from tavily import TavilyClient
 from state import NewsletterState
 from dotenv import load_dotenv
+import requests
 
 load_dotenv()
 tavily_client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
+
+def get_content(url) : 
+    return requests.get(f"https://r.jina.ai/{url}").text
 
 
 def soursing_agent(state : NewsletterState) : 
@@ -25,12 +29,15 @@ def soursing_agent(state : NewsletterState) :
     articles = []
 
     for result in response.get("results", []) : 
-        urls.append(result["url"])
+        url = result["url"]
+        content = get_content(url)
+
+        urls.append(url)
         articles.append({
             "title" : result["title"],
-            "url" : result["url"],
+            "url" : url,
             "date" : result.get("published_date", "Date inconnue"),
-            "content" : result.get("raw_content", result.get("content", ""))
+            "content" : content
         })
     print(f"[AGENT SOURCING] {len(urls)} articles récupérés !")
 

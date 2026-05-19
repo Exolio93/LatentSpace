@@ -1,0 +1,69 @@
+{
+    "top_news_subject": {
+        "subject_title": "AI et cybersécurité dans les marchés émergents",
+        "urls_sources": [
+            "https://developingtelecoms.com/telecom-technology/cybersecurity/20245-how-ai-is-exposing-cybersecurity-weaknesses-in-emerging-markets.html"
+        ],
+        "editorial_perspective": "Analyser comment l'IA met en lumière les faiblesses de la cybersécurité dans les marchés émergents et les implications pour les entreprises."
+    },
+    "news_subject": [
+        {
+            "subject_title": "Impact de l'IA sur les développeurs de logiciels",
+            "urls_sources": [
+                "https://www.404media.co/software-developers-say-ai-is-rotting-their-brains/"
+            ],
+            "editorial_perspective": "Explorer les préoccupations des développeurs de logiciels concernant l'impact de l'IA sur leurs compétences et leur créativité."
+        },
+        {
+            "subject_title": "AI dans le marketing",
+            "urls_sources": [
+                "https://www.trendhunter.com/amp/trends/ADWEEK-House-Possible-Group"
+            ],
+            "editorial_perspective": "Examiner comment l'IA transforme les stratégies marketing et les outils utilisés par les entreprises."
+        },
+        {
+            "subject_title": "AI et emploi dans les petites entreprises",
+            "urls_sources": [
+                "https://time.com/article/2026/05/14/ai-small-businesses-layoffs/"
+            ],
+            "editorial_perspective": "Discuter de l'impact de l'IA sur l'emploi dans les petites entreprises et les tendances de remplacement des travailleurs par des technologies automatisées."
+        }
+    ],
+    "flash_news_subject": [
+        {
+            "subject_title": "AI et la transformation de la main-d'œuvre en Malaisie",
+            "urls_sources": [
+                "https://themalaysianreserve.com/2026/05/18/ai-reshaping-malaysias-workforce/"
+            ],
+            "editorial_perspective": "Un aperçu rapide de la manière dont l'IA modifie le paysage de l'emploi en Malaisie."
+        },
+        {
+            "subject_title": "AI et sécurité des sites web",
+            "urls_sources": [
+                "https://themalaysianreserve.com/2026/05/18/ai-reshaping-malaysias-workforce/"
+            ],
+            "editorial_perspective": "Mentionner brièvement les défis de sécurité liés à l'accès aux sites web protégés par CAPTCHA."
+        },
+        {
+            "subject_title": "AI et transformation économique",
+            "urls_sources": [
+                "https://www.404media.co/software-developers-say-ai-is-rotting-their-brains/"
+            ],
+            "editorial_perspective": "Un flash sur la confiance des dirigeants dans le potentiel de l'IA à transformer l'économie."
+        },
+        {
+            "subject_title": "AI et attaques DDoS",
+            "urls_sources": [
+                "https://time.com/article/2026/05/14/ai-small-businesses-layoffs/"
+            ],
+            "editorial_perspective": "Rapide mention des attaques DDoS suspectées et des implications pour la sécurité en ligne."
+        },
+        {
+            "subject_title": "AI et innovation technologique",
+            "urls_sources": [
+                "https://www.trendhunter.com/amp/trends/ADWEEK-House-Possible-Group"
+            ],
+            "editorial_perspective": "Un aperçu des innovations technologiques dans le domaine de l'IA et leur impact potentiel."
+        }
+    ]
+}
