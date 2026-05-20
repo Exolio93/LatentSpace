@@ -179,3 +179,16 @@ class EditionStructure(BaseModel) :
     news_subject : List[Subject] = Field(min_length=3, max_length=3,description="Exactement 3 sujets secondaires mais impactants.")
     flash_news_subject : List[Subject] = Field(min_length=5, max_length=8,description="5 à 8 actualités très courtes pour le balayage final.")
 
+########################
+# Schema pour la correction
+########################
+
+class QualityReport(BaseModel):
+    revise_top_news: bool = Field(description="Mettre à True si le Grand Format (Top News) contient des erreurs, des répétitions ou un mauvais ton.")
+    feedback_top_news: str = Field(description="Les instructions de correction strictes pour le Grand Format. Laisse vide si revise_top_news est False.")
+    
+    revise_news: bool = Field(description="Mettre à True si la section News contient des erreurs ou des répétitions.")
+    feedback_news: str = Field(description="Les instructions de correction strictes pour la section News. Laisse vide si revise_news est False.")
+
+    revise_flash_news: bool = Field(description="Mettre à True si la section Flash News ne respecte pas les consignes de concision.")
+    feedback_flash_news: str = Field(description="Les instructions de correction strictes pour la section Flash News. Laisse vide si revise_flash_news est False.")

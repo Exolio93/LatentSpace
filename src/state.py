@@ -1,7 +1,7 @@
 from optparse import Option
 from typing import TypedDict, List, Optional, Annotated
 import operator
-from schema import EditionStructure, FlashNewsList, IntroductionItem, NewsList, TopNewsItem
+from schema import EditionStructure, FlashNewsList, IntroductionItem, NewsList, QualityReport, TopNewsItem
 
 class NewsletterState(TypedDict) : 
     lookback_day : int
@@ -14,3 +14,6 @@ class NewsletterState(TypedDict) :
     news_list : Optional[NewsList]
     flash_news_list : Optional[FlashNewsList]
     introduction_item : Optional[IntroductionItem]
+
+    revision_count : int
+    quality_report : Optional[QualityReport]

@@ -64,6 +64,11 @@ def top_news_redactor_agent(state : NewsletterState):
     edition_structure = state["edition_structure"]
     topic = edition_structure.top_news_subject
 
+    correction_warning = ""
+    report = state.get("quality_report")
+    if report and report.revise_top_news and report.feedback_top_news:
+        correction_warning = f"URGENT - TON PRÉCÉDENT BROUILLON A ÉTÉ REFUSÉ. CORRIGE CECI : {report.feedback_top_news}\n\n"
+
     content = ""
     for art in state.get("articles", []) :
         if art["url"] in topic.urls_sources : 
@@ -73,12 +78,13 @@ def top_news_redactor_agent(state : NewsletterState):
 
     prompt = ChatPromptTemplate.from_messages([
         ("system", system_prompts["top_news"]),
-        ("user", "SUJET ASSIGNÉ : {titre}. ANGLE ÉDITORIAL IMPOSÉ : {angle}. Voici les sources brutes extraites du web pour \
+        ("user", "{correction} SUJET ASSIGNÉ : {titre}. ANGLE ÉDITORIAL IMPOSÉ : {angle}. Voici les sources brutes extraites du web pour \
             t'aider à rédiger : {sources}. Génère l'objet structuré pour le Grand Format en respectant parfaitement ces consignes.")
     ])
 
     chain = prompt | llm.with_structured_output(TopNewsItem)
     top_news_item = chain.invoke({
+        "correction" : correction_warning,
         "titre": topic.title,
         "angle": topic.editorial_perspective,
         "sources": content
@@ -94,6 +100,11 @@ def news_redactor_agent(state: NewsletterState):
     
     edition_structure = state["edition_structure"]
     topics = edition_structure.news_subject 
+
+    correction_warning = ""
+    report = state.get("quality_report")
+    if report and report.revise_news and report.feedback_news:
+        correction_warning = f"URGENT - TON PRÉCÉDENT BROUILLON A ÉTÉ REFUSÉ. CORRIGE CECI : {report.feedback_news}\n\n"
 
     content = ""
     for idx, topic in enumerate(topics, 1):
@@ -112,13 +123,14 @@ def news_redactor_agent(state: NewsletterState):
 
     prompt = ChatPromptTemplate.from_messages([
         ("system", system_prompts["news"]),
-        ("user", "Voici les {nombre_sujets} actualités à traiter avec leurs angles et sources respectives :\n\n{sources}\n\n\
+        ("user", "{correction} Voici les {nombre_sujets} actualités à traiter avec leurs angles et sources respectives :\n\n{sources}\n\n\
             Génère l'objet structuré contenant ces actualités en respectant parfaitement les consignes.")
     ])
 
     chain = prompt | llm_mini.with_structured_output(NewsList)
     
     news_list = chain.invoke({
+        "correction" : correction_warning,
         "nombre_sujets": len(topics),
         "sources": content
     })
@@ -132,6 +144,11 @@ def flash_news_redactor_agent(state: NewsletterState):
     
     edition_structure = state["edition_structure"]
     topics = edition_structure.flash_news_subject 
+
+    correction_warning = ""
+    report = state.get("quality_report")
+    if report and report.revise_flash_news and report.feedback_flash_news:
+        correction_warning = f"URGENT - TON PRÉCÉDENT BROUILLON A ÉTÉ REFUSÉ. CORRIGE CECI : {report.feedback_flash_news}\n\n"
 
     content = ""
     for idx, topic in enumerate(topics, 1):
@@ -150,13 +167,14 @@ def flash_news_redactor_agent(state: NewsletterState):
 
     prompt = ChatPromptTemplate.from_messages([
         ("system", system_prompts["flash_news"]),
-        ("user", "Voici les {nombre_sujets} actualités brèves à traiter avec leurs sources respectives :\n\n{sources}\n\n\
+        ("user", "{correction} Voici les {nombre_sujets} actualités brèves à traiter avec leurs sources respectives :\n\n{sources}\n\n\
             Génère l'objet structuré contenant ces flashs en respectant parfaitement les consignes de concision extrême.")
     ])
 
     chain = prompt | llm_mini.with_structured_output(FlashNewsList)
     
     flash_news_list = chain.invoke({
+        "correction" : correction_warning,
         "nombre_sujets": len(topics),
         "sources": content
     })
