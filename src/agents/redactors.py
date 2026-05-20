@@ -2,8 +2,8 @@ from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic_core import Url
-from schema import EditionStructure, FlashNewsList, NewsList, TopNewsItem
-from state import NewsletterState
+from src.schema import EditionStructure, FlashNewsList, NewsList, TopNewsItem
+from src.state import NewsletterState
 
 
 system_prompts = {
@@ -47,6 +47,7 @@ system_prompts = {
     2. Le fait marquant doit tenir en UNE SEULE phrase. 
     3. Aucun commentaire, aucune analyse, aucune prise de recul. Juste l'information brute et le chiffre clé s'il y en a un.
     4. Interdiction absolue d'utiliser des mots de transition ou des fioritures.
+    5. tu dois tout rédiger en francais.
     """
 }
 

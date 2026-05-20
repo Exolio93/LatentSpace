@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
-from schema import QualityReport
-from state import NewsletterState
+from src.schema import QualityReport
+from src.state import NewsletterState
 from langchain_openai import ChatOpenAI
 
 system_prompt = """
@@ -26,7 +26,7 @@ def quality_control_agent(state: NewsletterState):
     
     revision_count = state.get("revision_count", 0)
     
-    if revision_count >= 2:
+    if revision_count >= 1:
         print("⚠️ [QUALITY CONTROL] Limite de révisions atteinte.")
         dummy_report = QualityReport(revise_top_news=False, feedback_top_news="",revise_news=False, feedback_news="",revise_flash_news=False, feedback_flash_news="")
         return {

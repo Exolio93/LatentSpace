@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
-from schema import IntroductionItem
-from state import NewsletterState
+from src.schema import IntroductionItem
+from src.state import NewsletterState
 
 load_dotenv()
 llm = ChatOpenAI(model = "gpt-4o", temperature=0)

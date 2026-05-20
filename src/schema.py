@@ -8,21 +8,21 @@ news_max = 3
 
 class IntroductionItem(BaseModel):
     # 1. L'accueil
-    mot_de_bienvenue: str = Field(
+    welcome_word: str = Field(
         ..., 
         description="Une phrase d'accueil chaleureuse ou percutante pour ouvrir la newsletter (ex: 'Bonjour à tous, préparez votre café ☕').",
         max_length=100
     )
     
     # 2. L'indicateur d'humeur / Le ton
-    meteo_de_la_semaine: str = Field(
+    weather: str = Field(
         ...,
         description="Un ou deux emojis suivis d'un ou deux mots pour donner la température du marché ou de l'actu (ex: '🌪️ Zone de turbulences', '🐢 Calme plat', '🚀 Semaine historique').",
         max_length=50
     )
     
     # 3. Le résumé des tendances
-    resume_tendances: str = Field(
+    trend_summary: str = Field(
         ..., 
         description=(
             "Un paragraphe de 2 à 3 phrases maximum qui résume les grandes dynamiques de la semaine. "
@@ -154,11 +154,7 @@ class FlashNewsList(BaseModel) :
 # Schema final 
 
 class LatentSpace(BaseModel) : 
-    numero_edition : int
-    email_object : str
-
     introduction : IntroductionItem
-
     top_news : TopNewsItem
     news : NewsList
     flash_news : FlashNewsList

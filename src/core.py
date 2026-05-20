@@ -1,11 +1,12 @@
 from langgraph.graph import StateGraph, START, END
-from agents import chief_redactor
-from agents.chief_redactor import chief_redactor_agent
-from agents.quality_control import quality_control_agent
-from agents.redactors import flash_news_redactor_agent, news_redactor_agent, top_news_redactor_agent
-from agents.sourcing import soursing_agent
-from agents.chief_editor import chief_editor_agent
-from state import NewsletterState
+from src.agents.chief_redactor import chief_redactor_agent
+from src.agents.chief_redactor import chief_redactor_agent
+from src.agents.quality_control import quality_control_agent
+from src.agents.redactors import flash_news_redactor_agent, news_redactor_agent, top_news_redactor_agent
+from src.agents.sourcing import soursing_agent
+from src.agents.chief_editor import chief_editor_agent
+from src.schema import LatentSpace
+from src.state import NewsletterState
 import json
 
 
@@ -50,8 +51,9 @@ def generate_newsletter():
     workflow.add_edge("chief_editor", "top_news_redactor")
     workflow.add_edge("chief_editor", "news_redactor")
     workflow.add_edge("chief_editor", "flash_news_redactor")
-    workflow.add_edge(["top_news_redactor", "news_redactor", "flash_news_redactor"], "quality_control")
-
+    workflow.add_edge("top_news_redactor", "quality_control")
+    workflow.add_edge("news_redactor", "quality_control")
+    workflow.add_edge("flash_news_redactor", "quality_control")
     workflow.add_conditional_edges(
         "quality_control", 
         routing_function, 
@@ -62,7 +64,6 @@ def generate_newsletter():
             "flash_news_redactor": "flash_news_redactor"
         }
     )
-
     workflow.add_edge("chief_redactor", END)
 
     app = workflow.compile()
@@ -77,12 +78,10 @@ def generate_newsletter():
 
     print("🚀 Lancement du pipeline...")
     result = app.invoke(inputs)
-    plan = result.get("edition_structure")
 
-    with open("debug_plan.json", "w", encoding="utf-8") as f:
-        f.write(plan.model_dump_json(indent=4))
-
-    content_dict = {k: v.model_dump() for k, v in result.items() if hasattr(v, 'model_dump')}
-
-    with open("debug_content.json", "w", encoding="utf-8") as f:
-        json.dump(content_dict, f, indent=4, ensure_ascii=False)
+    return LatentSpace(
+        introduction=result.get("introduction_item"),
+        top_news=result.get("top_news_item"),
+        news=result.get("news_list"),
+        flash_news=result.get("flash_news_list")
+    )

@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
-from schema import EditionStructure
-from state import NewsletterState
+from src.schema import EditionStructure
+from src.state import NewsletterState
 
 
 system_prompt = """

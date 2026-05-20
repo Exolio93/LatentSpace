@@ -1,6 +1,6 @@
 import os
 from tavily import TavilyClient
-from state import NewsletterState
+from src.state import NewsletterState
 from dotenv import load_dotenv
 import requests
 
